@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Lyrics Flashcards</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .card {
+            flex: 1;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            margin-bottom: 20px;
+        }
+
+        .lyric {
+            font-size: 36px;
+            text-align: center;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .progress {
+            text-align: center;
+            color: white;
+            font-size: 18px;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        button {
+            background: white;
+            border: none;
+            border-radius: 50%;
+            width: 70px;
+            height: 70px;
+            font-size: 32px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        button:active {
+            transform: scale(0.95);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        button:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 480px) {
+            .lyric {
+                font-size: 24px;
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            .card {
+                padding: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="progress">
+            <span id="current">1</span> / <span id="total">0</span>
+        </div>
+        <div class="card">
+            <div class="lyric" id="lyric">Loading...</div>
+        </div>
+        <div class="controls">
+            <button id="prev" onclick="previousLine()">←</button>
+            <button id="next" onclick="nextLine()">→</button>
+        </div>
+    </div>
+
+    <script>
+        const lines = [
+            "Co-da-son",
+            "Oi kyedo cantad",
+            "Ye-vad-tya bailad",
+            "Ke to_dwes po_si_blen Navidad",
+            "Un beso de mas",
+            "Pada celebdad",
+            "Oon anyo mas de felicidad",
+            "Lo pwedes sentid",
+            "Lo pwedes notad",
+            "Estes el momento_yell lugad",
+            "Estamos akee",
+            "Pada disfrutad",
+            "Yodad ee reh_eed",
+            "To_dwes po_si_blen Navidad",
+            "Kwando yegg_eh de noche Santa Klos",
+            "Le dee_REH ke pensa_dwal_go mehod",
+            "Solo pido_oon deseo",
+            "Ke dude syempde nwes_tdo_amod",
+            "Antes destar contigo",
+            "Disyembdeda tan frio_yoy",
+            "Se me derritel codason"
+        ];
+        let currentIndex = 0;
+
+        // Initialize on page load
+        document.getElementById('total').textContent = lines.length;
+        displayLine();
+
+        function displayLine() {
+            document.getElementById('lyric').textContent = lines[currentIndex];
+            document.getElementById('current').textContent = currentIndex + 1;
+
+            // Update button states
+            document.getElementById('prev').disabled = currentIndex === 0;
+            document.getElementById('next').disabled = currentIndex === lines.length - 1;
+        }
+
+        function nextLine() {
+            if (currentIndex < lines.length - 1) {
+                currentIndex++;
+                displayLine();
+            }
+        }
+
+        function previousLine() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                displayLine();
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextLine();
+            if (e.key === 'ArrowLeft') previousLine();
+        });
+    </script>
+</body>
+</html>
